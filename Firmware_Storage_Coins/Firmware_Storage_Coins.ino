@@ -59,11 +59,11 @@ int beforeReadcnta = 1;
 int beforeReadundolar = 1;
 
 int PIN1C = 8;
-int PIN10C = 9;
-int PIN5C = 10;
-int PIN25C = 13;
+// int PIN10C = 8;
+int PIN5C = 9;
+int PIN25C = 10;
 //int PIN50C = 12;
-int PIN100C = 11;
+int PIN100C = 12;
 
 float val_1 = 0.3;
 float val_2 = 0.5;
@@ -71,10 +71,10 @@ float val_3 = 0.75;
 float val_4 = 1;
 
 int CAJM = 6;
-int CAJ1 = 2;
+int CAJ1 = 5;
 int CAJ2 = 3;
 int CAJ3 = 4;
-int CAJ4 = 5;
+int CAJ4 = 2;
 
 ///////////////////////////////
 
@@ -84,11 +84,13 @@ int tmas = tma * 1000;
 
 unsigned long lastTime, sampleTime = tmas;
 
-double tma2 = 0.25;
+double tma2 = 0.001;
 
 int tmas2 = tma2 * 1000;
 
-unsigned long lastTime2, sampleTime2 = tmas2;
+unsigned long
+  lastTime2,
+  sampleTime2 = tmas2;
 
 char message;
 char message_or;
@@ -106,7 +108,7 @@ bool countStatus = false;
 
 char TECLA;                      // almacena la tecla presionada
 char CLAVE[5];                   // almacena en un array 4 digitos ingresados
-char CLAVE_MAESTRA[5] = "0000";  // almacena en un array la contraseña inicial
+char CLAVE_MAESTRA[5] = "1234";  // almacena en un array la contraseña inicial
 byte INDICE = 0;                 // indice del array
 //////
 
@@ -123,86 +125,84 @@ void loop() {
   // put your main code here, to run repeatedly:
 
 
-  //   if (millis() - lastTime2 >= sampleTime2)
-  // {  // Se actualiza cada sampleTime (milisegundos)
+  if (millis() - lastTime2 >= sampleTime2) {  // Se actualiza cada sampleTime (milisegundos)
 
-  //      lastTime2 = millis(); // Almacenar el tiempo actual.
+    lastTime2 = millis();  // Almacenar el tiempo actual.
 
-  if (digitalRead(PIN1C) == 0 && beforeReaduncent == 1) {
-    Serial.print("10 centavos - Suma:");
-    Serial.println(sum);
-    uncent += 1;
-    uncent_g += 1;
-    beforeReaduncent = 0;
-    sum_nc = sum_nc + 0.01;
-    countStatus = true;
-  } else if (digitalRead(PIN1C) == 1) {
-    beforeReaduncent = 1;
+    if (digitalRead(PIN1C) == 0 && beforeReaduncent == 1) {
+      Serial.print("10 centavos - Suma:");
+      Serial.println(sum);
+      uncent += 1;
+      uncent_g += 1;
+      beforeReaduncent = 0;
+      sum_nc = sum_nc + 0.01;
+      countStatus = true;
+    } else if (digitalRead(PIN1C) == 1) {
+      beforeReaduncent = 1;
+    }
+
+
+    //50원
+    // if (digitalRead(PIN10C) == 0 && beforeReaddiezcent == 1) {
+    //   Serial.print("10 centavos - Suma:");
+    //   Serial.println(sum);
+    //   diezcent += 1;
+    //   diezcent_g += 1;
+    //   beforeReaddiezcent = 0;
+    //   sum_nc = sum_nc + 0.1;
+    //   countStatus = true;
+    // } else if (digitalRead(PIN10C) == 1) {
+    //   beforeReaddiezcent = 1;
+    // }
+    //100원
+    if (digitalRead(PIN5C) == 0 && beforeReadcincocent == 1) {
+      Serial.print("5 centavos - Suma:");
+      Serial.println(sum);
+      cincocent += 1;
+      cincocent_g += 1;
+      beforeReadcincocent = 0;
+      sum_nc = sum_nc + 0.05;
+      countStatus = true;
+    } else if (digitalRead(PIN5C) == 1) {
+      beforeReadcincocent = 1;
+    }
+    //500원
+    if (digitalRead(PIN25C) == 0 && beforeReadvnt_cincocent == 1) {
+      Serial.print("25 centavos - Suma:");
+      Serial.println(sum);
+      vnt_cincocent += 1;
+      vnt_cincocent_g += 1;
+      beforeReadvnt_cincocent = 0;
+      sum_nc = sum_nc + 0.25;
+      countStatus = true;
+    } else if (digitalRead(PIN25C) == 1) {
+      beforeReadvnt_cincocent = 1;
+    }
+
+    // if (digitalRead(PIN50C) == 0 && beforeReadcnta == 1) {
+    //   Serial.print("50 centavos - Suma:");
+    //   Serial.println(sum);
+    //   cnta += 1;
+    //   cnta_g += 1;
+    //   beforeReadcnta = 0;
+    //   sum_nc = sum_nc + 0.5;
+    //   countStatus = true;
+    // } else if (digitalRead(PIN50C) == 1) {
+    //   beforeReadcnta = 1;
+    // }
+
+    if (digitalRead(PIN100C) == 0 && beforeReadundolar == 1) {
+      Serial.print("100 centavos - Suma:");
+      Serial.println(sum);
+      undolar += 1;
+      undolar_g += 1;
+      beforeReadundolar = 0;
+      sum_nc = sum_nc + 1;
+      countStatus = true;
+    } else if (digitalRead(PIN100C) == 1) {
+      beforeReadundolar = 1;
+    }
   }
-
-
-  //50원
-  if (digitalRead(PIN10C) == 0 && beforeReaddiezcent == 1) {
-    Serial.print("10 centavos - Suma:");
-    Serial.println(sum);
-    diezcent += 1;
-    diezcent_g += 1;
-    beforeReaddiezcent = 0;
-    sum_nc = sum_nc + 0.1;
-    countStatus = true;
-  } else if (digitalRead(PIN10C) == 1) {
-    beforeReaddiezcent = 1;
-  }
-  //100원
-  if (digitalRead(PIN5C) == 0 && beforeReadcincocent == 1) {
-    Serial.print("5 centavos - Suma:");
-    Serial.println(sum);
-    cincocent += 1;
-    cincocent_g += 1;
-    beforeReadcincocent = 0;
-    sum_nc = sum_nc + 0.05;
-    countStatus = true;
-  } else if (digitalRead(PIN5C) == 1) {
-    beforeReadcincocent = 1;
-  }
-  //500원
-  if (digitalRead(PIN25C) == 0 && beforeReadvnt_cincocent == 1) {
-    Serial.print("25 centavos - Suma:");
-    Serial.println(sum);
-    vnt_cincocent += 1;
-    vnt_cincocent_g += 1;
-    beforeReadvnt_cincocent = 0;
-    sum_nc = sum_nc + 0.25;
-    countStatus = true;
-  } else if (digitalRead(PIN25C) == 1) {
-    beforeReadvnt_cincocent = 1;
-  }
-
-  // if (digitalRead(PIN50C) == 0 && beforeReadcnta == 1) {
-  //   Serial.print("50 centavos - Suma:");
-  //   Serial.println(sum);
-  //   cnta += 1;
-  //   cnta_g += 1;
-  //   beforeReadcnta = 0;
-  //   sum_nc = sum_nc + 0.5;
-  //   countStatus = true;
-  // } else if (digitalRead(PIN50C) == 1) {
-  //   beforeReadcnta = 1;
-  // }
-
-  if (digitalRead(PIN100C) == 0 && beforeReadundolar == 1) {
-    Serial.print("100 centavos - Suma:");
-    Serial.println(sum);
-    undolar += 1;
-    undolar_g += 1;
-    beforeReadundolar = 0;
-    sum_nc = sum_nc + 1;
-    countStatus = true;
-  } else if (digitalRead(PIN100C) == 1) {
-    beforeReadundolar = 1;
-  }
-
-  // }
 
   if (countStatus) {
 
@@ -222,7 +222,7 @@ void loop() {
             + undolar_g * 1;
 
 
-    Serial.println(sum);
+    Serial.println(sum_nc);
     //sum_a=sum;
     ScreenPrincipal(message, sum_nc);
     countStatus = false;
@@ -264,7 +264,7 @@ void loop() {
     case '#':
       message_or = "";
       delay(0.1);
-      sum_nc=0;
+      sum_nc = 0;
       ResetCount();
       //ScreenPrincipal(message, sum);
       ScreenPrincipal(message, sum_nc);
@@ -430,7 +430,7 @@ void ScreenKeyStatus(String messege1, float sum) {
 void initContador() {
 
   pinMode(PIN1C, INPUT);
-  pinMode(PIN10C, INPUT);
+  //pinMode(PIN10C, INPUT);
   pinMode(PIN5C, INPUT);
   pinMode(PIN25C, INPUT);
   //pinMode(PIN50C, INPUT);
@@ -491,74 +491,81 @@ void Message_FaltaDinero() {
   ScreenPrincipal(message, sum_nc);
 }
 
-void ClaveInput() {
+void ClaveInput() { 
 
-  ScreenKey(CLAVE);
+  while (INDICE < 4) {
+    ScreenKey(CLAVE);
 
-  while (customKeypad.available() && stringComplete == false) {
-    keypadEvent e = customKeypad.read();
-    // Serial.print((char)e.bit.KEY);
-    // if(e.bit.EVENT == KEY_JUST_PRESSED) Serial.println(" pressed");
-    // else if(e.bit.EVENT == KEY_JUST_RELEASED) Serial.println(" released");
-    if (e.bit.EVENT == KEY_JUST_PRESSED) {
-      TECLA = e.bit.KEY;  // obtiene tecla presionada y asigna a variable
-      delay(10);
-      if (TECLA)  // comprueba que se haya presionado una tecla
-      {
-        CLAVE[INDICE] = TECLA;  // almacena en array la tecla presionada
-        INDICE++;               // incrementa indice en uno
-        Serial.println(TECLA);  // envia al LCD la tecla presionada
-        Serial.println(CLAVE);
-      }
+      customKeypad.tick();
 
-      if (INDICE == 4)  // si ya se almacenaron los 4 digitos
-      {
-        if (!strcmp(CLAVE, CLAVE_MAESTRA)) {
-
-          Serial.println("Abrir Caja Maestra");
-          ScreenKey("Abrir");
-          openCajon(CAJM);
-          /////
-          ScreenKeyStatus("$ ", sum_g);
-          delay(1000);
-
-          ScreenKeyStatus("1 c: ", uncent_g);
-          delay(1000);
-
-          ScreenKeyStatus("10 c: ", diezcent_g);
-          delay(1000);
-
-          ScreenKeyStatus("5 c: ", cincocent_g);
-          delay(1000);
-
-          ScreenKeyStatus("25 c: ", vnt_cincocent_g);
-          delay(1000);
-
-          ScreenKeyStatus("50 c: ", cnta_g);
-          delay(1000);
-
-          ScreenKeyStatus("1 $: ", undolar_g);
-          delay(1000);
-          ResetCountGlobal();
-
-        }  // compara clave ingresada con clave maestra
-           //abierto();
-
-        else {
-
-          Serial.println("ERROR");
-          ScreenKey("Error");
-          delay(5000);
+    while (customKeypad.available()) {
+      keypadEvent e = customKeypad.read();
+      // Serial.print((char)e.bit.KEY);
+      // if(e.bit.EVENT == KEY_JUST_PRESSED) Serial.println(" pressed");
+      // else if(e.bit.EVENT == KEY_JUST_RELEASED) Serial.println(" released");
+      if (e.bit.EVENT == KEY_JUST_PRESSED) {
+        TECLA = e.bit.KEY;  // obtiene tecla presionada y asigna a variable
+        delay(10);
+        if (TECLA)  // comprueba que se haya presionado una tecla
+        {
+          CLAVE[INDICE] = TECLA;  // almacena en array la tecla presionada
+          INDICE++;               // incrementa indice en uno
+          Serial.println(TECLA);  // envia al LCD la tecla presionada
+          Serial.println(CLAVE);
         }
-        //error();
-        INDICE = 0;
-        message_or = "";
 
-        memset(CLAVE, 0, sizeof(CLAVE));
-
-        ScreenPrincipal(message, sum);
-      }
-    } else if (e.bit.EVENT == KEY_JUST_RELEASED)
-      ;
+      } else if (e.bit.EVENT == KEY_JUST_RELEASED)
+        ;
+    }
   }
+
+    if (INDICE == 4)  // si ya se almacenaron los 4 digitos
+    {
+      if (!strcmp(CLAVE, CLAVE_MAESTRA)) {
+
+        Serial.println("Abrir Caja Maestra");
+        ScreenKey("Abrir");
+        openCajon(CAJM);
+        /////
+
+        ScreenKeyStatus("$ ", sum_g);
+        delay(1000);
+
+        ScreenKeyStatus("1 c: ", uncent_g);
+        delay(1000);
+
+        ScreenKeyStatus("10 c: ", diezcent_g);
+        delay(1000);
+
+        ScreenKeyStatus("5 c: ", cincocent_g);
+        delay(1000);
+
+        ScreenKeyStatus("25 c: ", vnt_cincocent_g);
+        delay(1000);
+
+        ScreenKeyStatus("50 c: ", cnta_g);
+        delay(1000);
+
+        ScreenKeyStatus("1 $: ", undolar_g);
+        delay(1000);
+        ResetCountGlobal();
+        sum_nc = 0;
+
+      }  // compara clave ingresada con clave maestra
+         //abierto();
+
+      else {
+
+        Serial.println("ERROR");
+        ScreenKey("Error");
+        delay(5000);
+      }
+      //error();
+    }
+  INDICE = 0;
+  message_or = "";
+
+  memset(CLAVE, 0, sizeof(CLAVE));
+
+  ScreenPrincipal(message, sum_nc);
 }
